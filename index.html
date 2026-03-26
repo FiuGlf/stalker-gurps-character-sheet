@@ -11,23 +11,41 @@
         }
         
         body {
-            background: #3a3226;
-            font-family: 'Courier New', monospace;
+            background: #2a241a;
+            font-family: 'Courier New', 'Consolas', monospace;
             padding: 15px;
         }
         
-        .sheet {
-            max-width: 1000px;
+        /* Основной контейнер */
+        .container {
+            max-width: 1300px;
             margin: 0 auto;
+        }
+        
+        /* Стиль листа персонажа */
+        .sheet {
             background: #f2ecdf;
+            background-image: linear-gradient(rgba(100,70,40,0.03) 1px, transparent 1px);
+            background-size: 100% 4px;
             border: 8px double #5a3e28;
+            border-radius: 4px;
             padding: 20px;
+            margin-bottom: 25px;
             box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+        }
+        
+        /* Стиль страницы пояснений */
+        .rules {
+            background: #e8e0d0;
+            border: 2px solid #7c5d3a;
+            padding: 20px;
+            page-break-before: always;
         }
         
         .header {
             display: flex;
             justify-content: space-between;
+            align-items: flex-end;
             border-bottom: 3px solid #8b6946;
             margin-bottom: 20px;
             padding-bottom: 10px;
@@ -37,14 +55,25 @@
         .stalker-logo {
             font-size: 22px;
             font-weight: bold;
+            letter-spacing: 4px;
             background: #2f241b;
             color: #e2cfaa;
             padding: 5px 15px;
+            border-radius: 2px;
+        }
+        
+        .id-number input {
+            background: #e3d2bc;
+            border: 1px solid #b68b54;
+            padding: 4px 12px;
+            font-family: monospace;
+            font-size: 12px;
         }
         
         .name-block {
             display: flex;
             justify-content: space-between;
+            align-items: baseline;
             background: #e3d2bc;
             padding: 8px 15px;
             margin-bottom: 20px;
@@ -60,6 +89,19 @@
             border: none;
             border-bottom: 2px dashed #7c5d3a;
             width: 300px;
+            font-family: monospace;
+            font-weight: bold;
+            color: #2c241a;
+        }
+        
+        .points-cost input {
+            background: #2f241b;
+            color: #f3e3c2;
+            padding: 5px 15px;
+            font-weight: bold;
+            border: none;
+            width: 100px;
+            text-align: center;
             font-family: monospace;
         }
         
@@ -79,61 +121,148 @@
             border: 1px solid #aa7c4a;
             padding: 12px;
             margin-bottom: 16px;
+            box-shadow: inset 0 0 0 1px #fff6e8, 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .card-title {
             font-weight: bold;
             font-size: 15px;
             text-transform: uppercase;
+            letter-spacing: 1px;
             border-left: 6px solid #9b6e3e;
             padding-left: 8px;
             margin-bottom: 10px;
+            color: #2c241a;
         }
         
         .stat-row {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 5px 0;
             border-bottom: 1px dotted #bb9a6a;
             font-size: 13px;
         }
         
         .stat-row input {
-            width: 60px;
+            font-weight: bold;
             background: #fff2e2;
-            border: none;
+            border: 1px solid #c9a86c;
+            border-radius: 4px;
+            padding: 2px 8px;
+            width: 60px;
             text-align: center;
             font-family: monospace;
-            font-weight: bold;
+        }
+        
+        .stat-row .note {
+            font-size: 9px;
+            color: #6f5230;
+            margin-left: 5px;
         }
         
         .skill-line {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 3px 0;
             border-bottom: 1px dotted #cfb78b;
             font-size: 10.5px;
         }
         
         .skill-line input {
-            width: 50px;
+            width: 55px;
             background: #fff2e2;
-            border: none;
+            border: 1px solid #c9a86c;
+            border-radius: 3px;
             text-align: center;
+            font-family: monospace;
+            padding: 2px;
+        }
+        
+        .skill-cat {
+            font-weight: bold;
+            font-size: 11px;
+            margin-top: 8px;
+            margin-bottom: 5px;
+            color: #5a3a1e;
+            background: #dac299;
+            display: inline-block;
+            padding: 0 8px;
+            border-radius: 20px;
         }
         
         .derived-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 6px 12px;
+            gap: 8px 12px;
             font-size: 11px;
         }
         
-        .derived-grid input {
-            width: 50px;
+        .derived-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .derived-item input {
+            width: 55px;
+            background: #fff2e2;
+            border: 1px solid #c9a86c;
+            border-radius: 3px;
+            text-align: center;
+            font-family: monospace;
+            padding: 2px;
+        }
+        
+        .inv-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 10.5px;
+        }
+        
+        .inv-row input {
+            width: 160px;
+            background: #fff2e2;
+            border: none;
+            border-bottom: 1px dotted #bb9a6a;
+            font-family: monospace;
+            padding: 2px 5px;
+        }
+        
+        .inv-row input.small {
+            width: 60px;
+            text-align: center;
+        }
+        
+        .armor-stats {
+            background: #cfb992;
+            padding: 6px 10px;
+            font-size: 9px;
+            margin: 8px 0;
+            border-radius: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        
+        .armor-stats input {
+            width: 45px;
             background: #fff2e2;
             border: none;
             text-align: center;
+            font-family: monospace;
+        }
+        
+        .artifact-zone {
+            background: #2f241b;
+            color: #ecdcaa;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 10px;
         }
         
         textarea {
@@ -142,166 +271,436 @@
             border: 1px solid #aa7c4a;
             font-family: monospace;
             font-size: 10px;
+            padding: 5px;
             margin-top: 5px;
-        }
-        
-        .inv-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 3px 0;
-            font-size: 10.5px;
-        }
-        
-        .inv-row input {
-            width: 150px;
-            background: #fff2e2;
-            border: none;
-            border-bottom: 1px dotted #bb9a6a;
+            resize: vertical;
         }
         
         button {
             background: #7c5d3a;
             color: white;
             border: none;
-            padding: 5px 10px;
-            margin-top: 10px;
+            padding: 6px 15px;
+            margin: 5px;
             cursor: pointer;
             font-family: monospace;
+            font-size: 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
         }
         
         button:hover {
             background: #5a3e28;
+            transform: scale(1.02);
         }
         
         .save-status {
             font-size: 10px;
-            color: green;
+            color: #2c5a2c;
+            margin-top: 8px;
+            text-align: center;
+        }
+        
+        .calc-formula {
+            font-size: 9px;
+            color: #6a4e2a;
+            font-style: italic;
             margin-top: 5px;
+            padding-top: 5px;
+            border-top: 1px dotted #bb9a6a;
+        }
+        
+        .rules h2 {
+            color: #3a2a1a;
+            border-bottom: 2px solid #7c5d3a;
+            margin: 20px 0 15px 0;
+            padding-bottom: 5px;
+        }
+        
+        .rules h3 {
+            color: #5a3e28;
+            margin: 15px 0 10px 0;
+        }
+        
+        .rules-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 11px;
+        }
+        
+        .rules-table td, .rules-table th {
+            border: 1px solid #aa7c4a;
+            padding: 6px 10px;
+            text-align: left;
+        }
+        
+        .rules-table th {
+            background: #dac299;
+        }
+        
+        footer {
+            font-size: 8px;
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #b8874a;
+            padding-top: 8px;
+            color: #6a4e2a;
         }
         
         @media print {
-            body { background: white; }
-            .sheet { box-shadow: none; }
+            body { background: white; padding: 0; }
+            .sheet { box-shadow: none; break-inside: avoid; }
+            .rules { break-before: page; }
             button { display: none; }
+        }
+        
+        .stat-badge {
+            background: #7c5d3a;
+            color: #f2ecdf;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 9px;
+            margin-left: 8px;
+        }
+        
+        input.placeholder-grey::placeholder {
+            color: #aa8a5a;
+            opacity: 0.6;
         }
     </style>
 </head>
 <body>
+<div class="container">
+    <!-- ОСНОВНОЙ ЛИСТ ПЕРСОНАЖА -->
     <div class="sheet">
         <div class="header">
-            <div class="stalker-logo">S.T.A.L.K.E.R.</div>
-            <div>№ <input type="text" size="10" style="background:transparent;border:none;border-bottom:1px solid #b68b54;"></div>
+            <div class="stalker-logo">S.T.A.L.K.E.R. █████ ZONE</div>
+            <div class="id-number">ID: <input type="text" placeholder="______" size="15"></div>
         </div>
         
         <div class="name-block">
-            <div class="name-field"><input type="text" placeholder="Имя сталкера" size="30"></div>
-            <div>⚡ ОЧКИ: <input type="text" size="10" placeholder="0/0"></div>
+            <div class="name-field"><input type="text" placeholder="ИМЯ СТАЛКЕРА" size="35"></div>
+            <div class="points-cost">⚡ ОЧКИ: <input type="text" placeholder="0 / 0" size="12"></div>
         </div>
         
         <div class="three-col">
+            <!-- КОЛОНКА 1: ХАРАКТЕРИСТИКИ + ПРОИЗВОДНЫЕ -->
             <div class="col">
                 <div class="metal-card">
-                    <div class="card-title">ОСНОВНЫЕ ХАРАКТЕРИСТИКИ</div>
-                    <div class="stat-row"><span>💪 СИЛА (ST)</span><input type="text" value="10"></div>
-                    <div class="stat-row"><span>🏃‍♂️ ЛОВКОСТЬ (DX)</span><input type="text" value="10"></div>
-                    <div class="stat-row"><span>🧠 ИНТЕЛЛЕКТ (IQ)</span><input type="text" value="10"></div>
-                    <div class="stat-row"><span>❤️ ЗДОРОВЬЕ (HT)</span><input type="text" value="10"></div>
-                </div>
-                
-                <div class="metal-card">
-                    <div class="card-title">📡 ПРОИЗВОДНЫЕ</div>
-                    <div class="derived-grid">
-                        <span>❤️ ХП: <input type="text" value="10"></span>
-                        <span>⚡ ОУ: <input type="text" value="10"></span>
-                        <span>🧠 Сила воли: <input type="text" value="10"></span>
-                        <span>👁️ Восприятие: <input type="text" value="10"></span>
-                        <span>⚔️ Инициатива: <input type="text"></span>
-                        <span>🏃 Скорость: <input type="text"></span>
-                        <span>🌀 Уклонение: <input type="text"></span>
-                        <span>☢️ Сопр. радиации: <input type="text"></span>
+                    <div class="card-title">💪 ОСНОВНЫЕ ХАРАКТЕРИСТИКИ</div>
+                    <div class="stat-row">
+                        <span><strong>💪 СИЛА (ST)</strong> <span class="note">[10 очков/уровень]</span></span>
+                        <input type="number" id="st" value="10" step="1" onchange="updateDerived()">
+                    </div>
+                    <div class="stat-row">
+                        <span><strong>🏃‍♂️ ЛОВКОСТЬ (DX)</strong> <span class="note">[20 очков/уровень]</span></span>
+                        <input type="number" id="dx" value="10" step="1" onchange="updateDerived()">
+                    </div>
+                    <div class="stat-row">
+                        <span><strong>🧠 ИНТЕЛЛЕКТ (IQ)</strong> <span class="note">[20 очков/уровень]</span></span>
+                        <input type="number" id="iq" value="10" step="1" onchange="updateDerived()">
+                    </div>
+                    <div class="stat-row">
+                        <span><strong>❤️ ЗДОРОВЬЕ (HT)</strong> <span class="note">[10 очков/уровень]</span></span>
+                        <input type="number" id="ht" value="10" step="1" onchange="updateDerived()">
+                    </div>
+                    <div class="calc-formula">
+                        📊 Стоимость рассчитывается: (ST-10)×10 + (DX-10)×20 + (IQ-10)×20 + (HT-10)×10
                     </div>
                 </div>
                 
                 <div class="metal-card">
-                    <div class="card-title">🔫 БОЕВЫЕ НАВЫКИ</div>
-                    <div class="skill-line"><span>Стрельба (винтовки)</span><input type="text"></div>
-                    <div class="skill-line"><span>Стрельба (пистолеты)</span><input type="text"></div>
-                    <div class="skill-line"><span>Стрельба (автоматы)</span><input type="text"></div>
-                    <div class="skill-line"><span>Метание (гранаты)</span><input type="text"></div>
+                    <div class="card-title">📡 ПРОИЗВОДНЫЕ ХАРАКТЕРИСТИКИ</div>
+                    <div class="derived-grid">
+                        <div class="derived-item"><span>❤️ ХИТ-ПОИНТЫ (HP)</span><input type="text" id="hp" placeholder="ST"></div>
+                        <div class="derived-item"><span>⚡ ОЧКИ УСТОЙЧИВОСТИ (FP)</span><input type="text" id="fp" placeholder="HT"></div>
+                        <div class="derived-item"><span>🧠 СИЛА ВОЛИ (Will)</span><input type="text" id="will" placeholder="IQ"></div>
+                        <div class="derived-item"><span>👁️ ВОСПРИЯТИЕ (Per)</span><input type="text" id="per" placeholder="IQ"></div>
+                        <div class="derived-item"><span>⚔️ ИНИЦИАТИВА (Basic Speed)</span><input type="text" id="speed" placeholder="(DX+HT)/4"></div>
+                        <div class="derived-item"><span>🏃 БАЗОВАЯ СКОРОСТЬ (Move)</span><input type="text" id="move" placeholder="floor(Speed)"></div>
+                        <div class="derived-item"><span>🌀 УКЛОНЕНИЕ (Dodge)</span><input type="text" id="dodge" placeholder="Speed+3"></div>
+                        <div class="derived-item"><span>☢️ СОПР. РАДИАЦИИ</span><input type="text" id="rad" placeholder="HT/2+3"></div>
+                    </div>
+                    <div class="armor-stats">
+                        <span>🧬 Уст. к аномалиям: <input type="text" id="anom_resist" placeholder="(Will+HT)/2"></span>
+                        <span>🧠 Пси-защита: <input type="text" id="psi_def" placeholder="IQ/2+4"></span>
+                    </div>
+                    <div class="calc-formula">
+                        📐 Формулы: HP=ST | FP=HT | Will=IQ | Per=IQ | Speed=(DX+HT)/4 | Move=floor(Speed) | Dodge=Speed+3 | Сопр.Рад=HT/2+3 | Уст.Аном=(Will+HT)/2
+                    </div>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">🏅 ПРЕИМУЩЕСТВА / НЕДОСТАТКИ</div>
+                    <textarea rows="4" id="advantages" placeholder="Преимущества (укажите очки):
+• ...
+• ...
+
+Недостатки (укажите очки):
+• ...
+• ..."></textarea>
+                    <div class="stat-row"><span>Сумма очков за преимущества/недостатки:</span><input type="text" id="adv_cost" placeholder="0"></div>
                 </div>
             </div>
             
+            <!-- КОЛОНКА 2: НАВЫКИ -->
             <div class="col">
                 <div class="metal-card">
-                    <div class="card-title">☣️ ВЫЖИВАНИЕ</div>
-                    <div class="skill-line"><span>🌀 Понимание аномалий</span><input type="text"></div>
-                    <div class="skill-line"><span>🏕️ Выживание (Зона)</span><input type="text"></div>
-                    <div class="skill-line"><span>🌿 Скрытность</span><input type="text"></div>
-                    <div class="skill-line"><span>🔬 Идентификация артефактов</span><input type="text"></div>
+                    <div class="card-title">🔫 БОЕВЫЕ НАВЫКИ</div>
+                    <div class="skill-line"><span>Стрельба (автоматы) [A]</span><input type="text" id="auto" placeholder="DX"></div>
+                    <div class="skill-line"><span>Стрельба (пистолеты) [E]</span><input type="text" id="pistol" placeholder="DX"></div>
+                    <div class="skill-line"><span>Стрельба (винтовки) [A]</span><input type="text" id="rifle" placeholder="DX"></div>
+                    <div class="skill-line"><span>Метание (гранаты) [E]</span><input type="text" id="throw" placeholder="DX"></div>
+                    <div class="skill-line"><span>Холодное оружие [A]</span><input type="text" id="melee" placeholder="DX"></div>
+                    <div class="skill-line"><span>Тактика [H]</span><input type="text" id="tactics" placeholder="IQ"></div>
                 </div>
                 
+                <div class="metal-card">
+                    <div class="card-title">☣️ ВЫЖИВАНИЕ В ЗОНЕ</div>
+                    <div class="skill-line"><span>🌀 Понимание аномалий [A]</span><input type="text" id="anom" placeholder="IQ"></div>
+                    <div class="skill-line"><span>🏕️ Выживание (Зона) [A]</span><input type="text" id="survival" placeholder="IQ"></div>
+                    <div class="skill-line"><span>🌿 Скрытность [A]</span><input type="text" id="stealth" placeholder="DX"></div>
+                    <div class="skill-line"><span>🔬 Идентификация артефактов [H]</span><input type="text" id="artifact_id" placeholder="IQ"></div>
+                    <div class="skill-line"><span>☢️ Радиационная безопасность [A]</span><input type="text" id="rad_safe" placeholder="IQ"></div>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">⚙️ ТЕХНИКА И МЕДИЦИНА</div>
+                    <div class="skill-line"><span>🔌 Электроника (КПК) [A]</span><input type="text" id="electronics" placeholder="IQ"></div>
+                    <div class="skill-line"><span>🔧 Механика (оружие) [A]</span><input type="text" id="mechanics" placeholder="IQ"></div>
+                    <div class="skill-line"><span>🩸 Первая помощь [E]</span><input type="text" id="first_aid" placeholder="IQ"></div>
+                    <div class="skill-line"><span>💊 Фармакология [H]</span><input type="text" id="pharma" placeholder="IQ"></div>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">💬 СОЦИАЛЬНЫЕ НАВЫКИ</div>
+                    <div class="skill-line"><span>💰 Торговля / бартер [A]</span><input type="text" id="trade" placeholder="IQ"></div>
+                    <div class="skill-line"><span>🗣️ Красноречие [A]</span><input type="text" id="speech" placeholder="IQ"></div>
+                    <div class="skill-line"><span>😠 Запугивание [A]</span><input type="text" id="intim" placeholder="Will"></div>
+                    <div class="skill-line"><span>👥 Уличная осведомлённость [E]</span><input type="text" id="street" placeholder="IQ"></div>
+                </div>
+            </div>
+            
+            <!-- КОЛОНКА 3: СНАРЯЖЕНИЕ И ЗАМЕТКИ -->
+            <div class="col">
                 <div class="metal-card">
                     <div class="card-title">🎒 СНАРЯЖЕНИЕ</div>
-                    <div class="inv-row"><span>🧥 Костюм:</span><input type="text" placeholder="название"></div>
-                    <div class="inv-row"><span>🔫 Оружие основное:</span><input type="text"></div>
-                    <div class="inv-row"><span>🔫 Оружие второе:</span><input type="text"></div>
-                    <div class="inv-row"><span>💊 Аптечки:</span><input type="text" value="0"></div>
-                    <div class="inv-row"><span>🍞 Еда / вода:</span><input type="text" value="0"></div>
+                    <div class="inv-row"><span>🧥 Костюм / броня:</span><input type="text" id="armor" placeholder="название"></div>
+                    <div class="armor-stats">
+                        <span>Баллист: <input type="text" id="ballistic" placeholder="0"></span>
+                        <span>Оскол: <input type="text" id="frag" placeholder="0"></span>
+                        <span>Рад: <input type="text" id="rad_protect" placeholder="0"></span>
+                        <span>Аном: <input type="text" id="anom_protect" placeholder="0"></span>
+                    </div>
+                    <div class="inv-row"><span>🔫 Оружие основное:</span><input type="text" id="weapon1" placeholder="название"></div>
+                    <div class="inv-row"><span>🔫 Оружие второе:</span><input type="text" id="weapon2" placeholder="название"></div>
+                    <div class="inv-row"><span>💊 Аптечки / антирад:</span><input type="text" id="meds" placeholder="0 / 0" class="small"></div>
+                    <div class="inv-row"><span>🍞 Еда / вода:</span><input type="text" id="food" placeholder="0 / 0" class="small"></div>
+                    <div class="inv-row"><span>📡 КПК, детектор аномалий:</span><input type="text" id="gear" placeholder="есть / нет"></div>
+                    <div class="inv-row"><span>🔋 Батареи / контейнеры:</span><input type="text" id="batteries" placeholder="0 / 0"></div>
                 </div>
-            </div>
-            
-            <div class="col">
+                
                 <div class="metal-card">
                     <div class="card-title">🌀 АРТЕФАКТЫ</div>
-                    <textarea rows="3" placeholder="1.&#10;2.&#10;3."></textarea>
+                    <textarea rows="3" id="artifacts" placeholder="1. Название ☢️ эффект, фон __ р/ч&#10;2. ...&#10;3. ..."></textarea>
+                    <div class="armor-stats">
+                        <span>⚙️ контейнеры: <input type="text" id="containers" placeholder="0"></span>
+                        <span>суммарный фон: <input type="text" id="rad_bg" placeholder="0"></span>
+                    </div>
                 </div>
                 
                 <div class="metal-card">
-                    <div class="card-title">📝 ЗАМЕТКИ</div>
-                    <textarea rows="4" placeholder="Важные заметки, квесты, контакты..."></textarea>
+                    <div class="card-title">🔫 БОЕПРИПАСЫ</div>
+                    <div class="inv-row"><span>Патроны 5.45x39:</span><input type="text" id="ammo_545" placeholder="0" class="small"></div>
+                    <div class="inv-row"><span>Патроны 5.56x45:</span><input type="text" id="ammo_556" placeholder="0" class="small"></div>
+                    <div class="inv-row"><span>Патроны 9x18:</span><input type="text" id="ammo_918" placeholder="0" class="small"></div>
+                    <div class="inv-row"><span>Патроны 9x19:</span><input type="text" id="ammo_919" placeholder="0" class="small"></div>
+                    <div class="inv-row"><span>Патроны 7.62x39:</span><input type="text" id="ammo_762" placeholder="0" class="small"></div>
+                    <div class="inv-row"><span>Дробь 12к:</span><input type="text" id="ammo_shotgun" placeholder="0" class="small"></div>
+                    <div class="inv-row"><span>Гранаты / взрывчатка:</span><input type="text" id="grenades" placeholder="0"></div>
                 </div>
                 
                 <div class="metal-card">
-                    <div class="card-title">💰 ФИНАНСЫ</div>
-                    <div class="stat-row"><span>Деньги (рубли):</span><input type="text" value="0"></div>
-                    <div class="stat-row"><span>Репутация:</span><input type="text" placeholder="группировка"></div>
+                    <div class="card-title">💰 ФИНАНСЫ И РЕПУТАЦИЯ</div>
+                    <div class="stat-row"><span>Деньги (рубли):</span><input type="text" id="money" placeholder="0"></div>
+                    <div class="stat-row"><span>Репутация:</span><input type="text" id="reputation" placeholder="группировка / статус"></div>
+                    <div class="stat-row"><span>Группировка:</span><input type="text" id="faction" placeholder="Долг / Свобода / Одиночки / ..."></div>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">📝 ЗАМЕТКИ СТАЛКЕРА</div>
+                    <textarea rows="4" id="notes" placeholder="• Квесты&#10;• Координаты&#10;• Контакты&#10;• Важная информация"></textarea>
                 </div>
             </div>
         </div>
         
         <div style="text-align: center; margin-top: 15px;">
-            <button onclick="saveCharacter()">💾 СОХРАНИТЬ</button>
-            <button onclick="loadCharacter()">📂 ЗАГРУЗИТЬ</button>
+            <button onclick="saveCharacter()">💾 СОХРАНИТЬ ПЕРСОНАЖА</button>
+            <button onclick="loadCharacter()">📂 ЗАГРУЗИТЬ ПЕРСОНАЖА</button>
+            <button onclick="clearAll()">🗑️ ОЧИСТИТЬ ВСЁ</button>
             <div class="save-status" id="saveStatus"></div>
         </div>
+        <footer>GURPS 4e | S.T.A.L.K.E.R. Зона Отчуждения | проверка: 3d6 ≤ навык</footer>
     </div>
     
-    <script>
-        function saveCharacter() {
-            const inputs = document.querySelectorAll('input, textarea');
-            const data = {};
-            inputs.forEach((input, index) => {
-                data[index] = input.value;
-            });
-            localStorage.setItem('stalker_character', JSON.stringify(data));
-            document.getElementById('saveStatus').innerHTML = '✅ Сохранено!';
+    <!-- СТРАНИЦА 2: ПРАВИЛА И ПОЯСНЕНИЯ -->
+    <div class="rules">
+        <h2>📖 GURPS S.T.A.L.K.E.R. — ПРАВИЛА ИГРЫ</h2>
+        
+        <h3>🎲 ОСНОВНОЕ ПРАВИЛО</h3>
+        <p>Все проверки выполняются броском <strong>3d6</strong>. Результат должен быть <strong>МЕНЬШЕ или РАВЕН</strong> значению навыка или характеристики. Чем ниже бросок, тем лучше.</p>
+        
+        <h3>📊 ХАРАКТЕРИСТИКИ И ИХ СТОИМОСТЬ</h3>
+        <table class="rules-table">
+            <tr><th>Характеристика</th><th>База</th><th>Стоимость за уровень</th><th>Пример</th></tr>
+            <tr><td>💪 Сила (ST)</td><td>10</td><td>±10 очков</td><td>ST 12 = +20 очков, ST 8 = -20 очков</td></tr>
+            <tr><td>🏃‍♂️ Ловкость (DX)</td><td>10</td><td>±20 очков</td><td>DX 12 = +40 очков, DX 8 = -40 очков</td></tr>
+            <tr><td>🧠 Интеллект (IQ)</td><td>10</td><td>±20 очков</td><td>IQ 13 = +60 очков, IQ 8 = -40 очков</td></tr>
+            <tr><td>❤️ Здоровье (HT)</td><td>10</td><td>±10 очков</td><td>HT 11 = +10 очков, HT 9 = -10 очков</td></tr>
+         </table>
+        
+        <h3>📐 ПРОИЗВОДНЫЕ ХАРАКТЕРИСТИКИ</h3>
+        <table class="rules-table">
+            <tr><th>Параметр</th><th>Формула</th><th>Примечание</th></tr>
+            <tr><td>❤️ Хит-Поинты (HP)</td><td>ST</td><td>Здоровье персонажа</td></tr>
+            <tr><td>⚡ Очки Устойчивости (FP)</td><td>HT</td><td>Выносливость, усталость</td></tr>
+            <tr><td>🧠 Сила Воли (Will)</td><td>IQ</td><td>Сопротивление страху, психике</td></tr>
+            <tr><td>👁️ Восприятие (Per)</td><td>IQ</td><td>Замечать детали, аномалии</td></tr>
+            <tr><td>⚔️ Базовая Скорость</td><td>(DX+HT)/4</td><td>Округляется до 0.25</td></tr>
+            <tr><td>🏃 Базовая Скорость (Move)</td><td>floor(Скорость)</td><td>Скорость передвижения</td></tr>
+            <tr><td>🌀 Уклонение (Dodge)</td><td>Скорость + 3</td><td>Защита от атак</td></tr>
+            <tr><td>☢️ Сопротивление радиации</td><td>HT/2 + 3</td><td>Бросок против радиации</td></tr>
+         </table>
+        
+        <h3>🎯 СТОИМОСТЬ НАВЫКОВ</h3>
+        <table class="rules-table">
+            <tr><th>Сложность</th><th>Стоимость за базовый уровень</th><th>Стоимость +1 уровень</th></tr>
+            <tr><td>Легкий (E)</td><td>1 очко</td><td>+1 очко</td></tr>
+            <tr><td>Средний (A)</td><td>2 очка</td><td>+2 очка</td></tr>
+            <tr><td>Тяжелый (H)</td><td>4 очка</td><td>+4 очка</td></tr>
+         </table>
+        <p><strong>Пример:</strong> Выживание (средний) при IQ 12: база 12 стоит 2 очка, повышение до 13 = ещё +2 очка.</p>
+        
+        <h3>🏅 ПРЕИМУЩЕСТВА И НЕДОСТАТКИ</h3>
+        <table class="rules-table">
+            <tr><th>Преимущество</th><th>Стоимость</th><th>Недостаток</th><th>Стоимость</th></tr>
+            <tr><td>Обострённые чувства</td><td>5-15</td><td>Кодекс чести</td><td>-5 до -15</td></tr>
+            <tr><td>Устойчивость к радиации</td><td>5/уровень</td><td>Фобия (мутанты)</td><td>-5 до -15</td></tr>
+            <tr><td>Быстрая реакция</td><td>15-30</td><td>Враги</td><td>-5 до -20</td></tr>
+            <tr><td>Везучий</td><td>15-60</td><td>Любопытство</td><td>-5</td></tr>
+            <tr><td>Выносливость</td><td>3/уровень</td><td>Легкая ранимость</td><td>-5 до -15</td></tr>
+         </table>
+        
+        <h3>🗺️ СПЕЦИАЛЬНЫЕ ПРАВИЛА ЗОНЫ</h3>
+        <ul style="margin-left: 20px; font-size: 11px;">
+            <li><strong>Радиация:</strong> каждый час в заражённой зоне — бросок HT против радиации. Фон >10 р/ч — каждые 10 минут.</li>
+            <li><strong>Аномалии:</strong> Восприятие (Per) для обнаружения, Понимание аномалий для идентификации, Уклонение для прохода.</li>
+            <li><strong>Мутанты:</strong> при встрече с мутантами — проверка Силы Воли (Will) для паники.</li>
+            <li><strong>Артефакты:</strong> идентификация требует IQ/Понимание аномалий. Ношение без контейнера даёт радиационный фон.</li>
+            <li><strong>Сон и отдых:</strong> за каждые 8 часов без сна — потеря 1 FP. Восстановление: 1 FP за 10 минут отдыха.</li>
+            <li><strong>Лечение:</strong> Первая помощь восстанавливает 1d3 HP. Медикаменты могут дать бонусы.</li>
+        </ul>
+        
+        <h3>🎲 КРИТИЧЕСКИЕ БРОСКИ</h3>
+        <p>При броске 3d6: <strong>3-5</strong> — критический успех (особо хороший результат). <strong>16-18</strong> — критическая неудача (что-то идёт не так).</p>
+        
+        <h3>💰 РАСЧЁТ ОЧКОВ ПЕРСОНАЖА</h3>
+        <p><strong>Стандартный сталкер:</strong> 100-150 очков<br>
+        <strong>Ветеран Зоны:</strong> 150-200 очков<br>
+        <strong>Легендарный сталкер:</strong> 200+ очков</p>
+        <p>Формула: <strong>Итого = (Характеристики) + (Навыки) + (Преимущества) + (Недостатки)</strong></p>
+        
+        <footer>GURPS 4e для Зоны Отчуждения | v2.0 | Создай своего сталкера и выживи в Зоне!</footer>
+    </div>
+</div>
+
+<script>
+    // Автоматический расчёт производных характеристик
+    function updateDerived() {
+        const st = parseFloat(document.getElementById('st').value) || 10;
+        const dx = parseFloat(document.getElementById('dx').value) || 10;
+        const iq = parseFloat(document.getElementById('iq').value) || 10;
+        const ht = parseFloat(document.getElementById('ht').value) || 10;
+        
+        // Основные производные
+        document.getElementById('hp').value = st;
+        document.getElementById('fp').value = ht;
+        document.getElementById('will').value = iq;
+        document.getElementById('per').value = iq;
+        
+        const speed = (dx + ht) / 4;
+        document.getElementById('speed').value = speed.toFixed(2);
+        document.getElementById('move').value = Math.floor(speed);
+        document.getElementById('dodge').value = Math.floor(speed) + 3;
+        
+        const rad_resist = Math.floor(ht / 2) + 3;
+        document.getElementById('rad').value = rad_resist;
+        
+        const anom_resist = Math.floor((iq + ht) / 2);
+        document.getElementById('anom_resist').value = anom_resist;
+        
+        // Пси-защита (базовая от IQ)
+        document.getElementById('psi_def').value = Math.floor(iq / 2) + 4;
+    }
+    
+    // Сохранение всех данных
+    function saveCharacter() {
+        const inputs = document.querySelectorAll('.sheet input, .sheet textarea');
+        const data = {};
+        inputs.forEach((input) => {
+            const id = input.id;
+            if (id) {
+                data[id] = input.value;
+            }
+        });
+        localStorage.setItem('stalker_character', JSON.stringify(data));
+        document.getElementById('saveStatus').innerHTML = '✅ Персонаж сохранён! ' + new Date().toLocaleTimeString();
+        setTimeout(() => {
+            if (document.getElementById('saveStatus').innerHTML.includes('сохранён'))
+                document.getElementById('saveStatus').innerHTML = '';
+        }, 3000);
+    }
+    
+    // Загрузка данных
+    function loadCharacter() {
+        const saved = localStorage.getItem('stalker_character');
+        if (saved) {
+            const data = JSON.parse(saved);
+            for (let id in data) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.value = data[id];
+                }
+            }
+            updateDerived();
+            document.getElementById('saveStatus').innerHTML = '✅ Персонаж загружен!';
+            setTimeout(() => document.getElementById('saveStatus').innerHTML = '', 2000);
+        } else {
+            document.getElementById('saveStatus').innerHTML = '❌ Нет сохранённого персонажа';
             setTimeout(() => document.getElementById('saveStatus').innerHTML = '', 2000);
         }
-        
-        function loadCharacter() {
-            const saved = localStorage.getItem('stalker_character');
-            if (saved) {
-                const data = JSON.parse(saved);
-                const inputs = document.querySelectorAll('input, textarea');
-                inputs.forEach((input, index) => {
-                    if (data[index] !== undefined) input.value = data[index];
-                });
-                document.getElementById('saveStatus').innerHTML = '✅ Загружено!';
-                setTimeout(() => document.getElementById('saveStatus').innerHTML = '', 2000);
+    }
+    
+    // Очистка всех полей
+    function clearAll() {
+        const inputs = document.querySelectorAll('.sheet input, .sheet textarea');
+        inputs.forEach((input) => {
+            if (input.type === 'number') {
+                input.value = '10';
+            } else if (input.id === 'st' || input.id === 'dx' || input.id === 'iq' || input.id === 'ht') {
+                input.value = '10';
             } else {
-                document.getElementById('saveStatus').innerHTML = '❌ Нет сохранений';
+                input.value = '';
             }
-        }
-    </script>
+        });
+        updateDerived();
+        document.getElementById('saveStatus').innerHTML = '🗑️ Все поля очищены!';
+        setTimeout(() => document.getElementById('saveStatus').innerHTML = '', 2000);
+    }
+    
+    // Инициализация при загрузке
+    updateDerived();
+</script>
 </body>
 </html>
