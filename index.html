@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>GURPS S.T.A.L.K.E.R. - Лист персонажа</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #3a3226;
+            font-family: 'Courier New', monospace;
+            padding: 15px;
+        }
+        
+        .sheet {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #f2ecdf;
+            border: 8px double #5a3e28;
+            padding: 20px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 3px solid #8b6946;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .stalker-logo {
+            font-size: 22px;
+            font-weight: bold;
+            background: #2f241b;
+            color: #e2cfaa;
+            padding: 5px 15px;
+        }
+        
+        .name-block {
+            display: flex;
+            justify-content: space-between;
+            background: #e3d2bc;
+            padding: 8px 15px;
+            margin-bottom: 20px;
+            border-left: 12px solid #7c5d3a;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .name-field input {
+            font-size: 28px;
+            font-weight: bold;
+            background: transparent;
+            border: none;
+            border-bottom: 2px dashed #7c5d3a;
+            width: 300px;
+            font-family: monospace;
+        }
+        
+        .three-col {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .col {
+            flex: 1;
+            min-width: 280px;
+        }
+        
+        .metal-card {
+            background: #e9ddcd;
+            border: 1px solid #aa7c4a;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: uppercase;
+            border-left: 6px solid #9b6e3e;
+            padding-left: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dotted #bb9a6a;
+            font-size: 13px;
+        }
+        
+        .stat-row input {
+            width: 60px;
+            background: #fff2e2;
+            border: none;
+            text-align: center;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        
+        .skill-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            border-bottom: 1px dotted #cfb78b;
+            font-size: 10.5px;
+        }
+        
+        .skill-line input {
+            width: 50px;
+            background: #fff2e2;
+            border: none;
+            text-align: center;
+        }
+        
+        .derived-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 12px;
+            font-size: 11px;
+        }
+        
+        .derived-grid input {
+            width: 50px;
+            background: #fff2e2;
+            border: none;
+            text-align: center;
+        }
+        
+        textarea {
+            width: 100%;
+            background: #fff2e2;
+            border: 1px solid #aa7c4a;
+            font-family: monospace;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+        
+        .inv-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-size: 10.5px;
+        }
+        
+        .inv-row input {
+            width: 150px;
+            background: #fff2e2;
+            border: none;
+            border-bottom: 1px dotted #bb9a6a;
+        }
+        
+        button {
+            background: #7c5d3a;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-family: monospace;
+        }
+        
+        button:hover {
+            background: #5a3e28;
+        }
+        
+        .save-status {
+            font-size: 10px;
+            color: green;
+            margin-top: 5px;
+        }
+        
+        @media print {
+            body { background: white; }
+            .sheet { box-shadow: none; }
+            button { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sheet">
+        <div class="header">
+            <div class="stalker-logo">S.T.A.L.K.E.R.</div>
+            <div>№ <input type="text" size="10" style="background:transparent;border:none;border-bottom:1px solid #b68b54;"></div>
+        </div>
+        
+        <div class="name-block">
+            <div class="name-field"><input type="text" placeholder="Имя сталкера" size="30"></div>
+            <div>⚡ ОЧКИ: <input type="text" size="10" placeholder="0/0"></div>
+        </div>
+        
+        <div class="three-col">
+            <div class="col">
+                <div class="metal-card">
+                    <div class="card-title">ОСНОВНЫЕ ХАРАКТЕРИСТИКИ</div>
+                    <div class="stat-row"><span>💪 СИЛА (ST)</span><input type="text" value="10"></div>
+                    <div class="stat-row"><span>🏃‍♂️ ЛОВКОСТЬ (DX)</span><input type="text" value="10"></div>
+                    <div class="stat-row"><span>🧠 ИНТЕЛЛЕКТ (IQ)</span><input type="text" value="10"></div>
+                    <div class="stat-row"><span>❤️ ЗДОРОВЬЕ (HT)</span><input type="text" value="10"></div>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">📡 ПРОИЗВОДНЫЕ</div>
+                    <div class="derived-grid">
+                        <span>❤️ ХП: <input type="text" value="10"></span>
+                        <span>⚡ ОУ: <input type="text" value="10"></span>
+                        <span>🧠 Сила воли: <input type="text" value="10"></span>
+                        <span>👁️ Восприятие: <input type="text" value="10"></span>
+                        <span>⚔️ Инициатива: <input type="text"></span>
+                        <span>🏃 Скорость: <input type="text"></span>
+                        <span>🌀 Уклонение: <input type="text"></span>
+                        <span>☢️ Сопр. радиации: <input type="text"></span>
+                    </div>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">🔫 БОЕВЫЕ НАВЫКИ</div>
+                    <div class="skill-line"><span>Стрельба (винтовки)</span><input type="text"></div>
+                    <div class="skill-line"><span>Стрельба (пистолеты)</span><input type="text"></div>
+                    <div class="skill-line"><span>Стрельба (автоматы)</span><input type="text"></div>
+                    <div class="skill-line"><span>Метание (гранаты)</span><input type="text"></div>
+                </div>
+            </div>
+            
+            <div class="col">
+                <div class="metal-card">
+                    <div class="card-title">☣️ ВЫЖИВАНИЕ</div>
+                    <div class="skill-line"><span>🌀 Понимание аномалий</span><input type="text"></div>
+                    <div class="skill-line"><span>🏕️ Выживание (Зона)</span><input type="text"></div>
+                    <div class="skill-line"><span>🌿 Скрытность</span><input type="text"></div>
+                    <div class="skill-line"><span>🔬 Идентификация артефактов</span><input type="text"></div>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">🎒 СНАРЯЖЕНИЕ</div>
+                    <div class="inv-row"><span>🧥 Костюм:</span><input type="text" placeholder="название"></div>
+                    <div class="inv-row"><span>🔫 Оружие основное:</span><input type="text"></div>
+                    <div class="inv-row"><span>🔫 Оружие второе:</span><input type="text"></div>
+                    <div class="inv-row"><span>💊 Аптечки:</span><input type="text" value="0"></div>
+                    <div class="inv-row"><span>🍞 Еда / вода:</span><input type="text" value="0"></div>
+                </div>
+            </div>
+            
+            <div class="col">
+                <div class="metal-card">
+                    <div class="card-title">🌀 АРТЕФАКТЫ</div>
+                    <textarea rows="3" placeholder="1.&#10;2.&#10;3."></textarea>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">📝 ЗАМЕТКИ</div>
+                    <textarea rows="4" placeholder="Важные заметки, квесты, контакты..."></textarea>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">💰 ФИНАНСЫ</div>
+                    <div class="stat-row"><span>Деньги (рубли):</span><input type="text" value="0"></div>
+                    <div class="stat-row"><span>Репутация:</span><input type="text" placeholder="группировка"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 15px;">
+            <button onclick="saveCharacter()">💾 СОХРАНИТЬ</button>
+            <button onclick="loadCharacter()">📂 ЗАГРУЗИТЬ</button>
+            <div class="save-status" id="saveStatus"></div>
+        </div>
+    </div>
+    
+    <script>
+        function saveCharacter() {
+            const inputs = document.querySelectorAll('input, textarea');
+            const data = {};
+            inputs.forEach((input, index) => {
+                data[index] = input.value;
+            });
+            localStorage.setItem('stalker_character', JSON.stringify(data));
+            document.getElementById('saveStatus').innerHTML = '✅ Сохранено!';
+            setTimeout(() => document.getElementById('saveStatus').innerHTML = '', 2000);
+        }
+        
+        function loadCharacter() {
+            const saved = localStorage.getItem('stalker_character');
+            if (saved) {
+                const data = JSON.parse(saved);
+                const inputs = document.querySelectorAll('input, textarea');
+                inputs.forEach((input, index) => {
+                    if (data[index] !== undefined) input.value = data[index];
+                });
+                document.getElementById('saveStatus').innerHTML = '✅ Загружено!';
+                setTimeout(() => document.getElementById('saveStatus').innerHTML = '', 2000);
+            } else {
+                document.getElementById('saveStatus').innerHTML = '❌ Нет сохранений';
+            }
+        }
+    </script>
+</body>
+</html>
