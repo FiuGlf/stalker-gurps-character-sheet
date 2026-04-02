@@ -452,7 +452,10 @@
                     <div class="skill-line"><span>Стрельба (пистолеты) [E]</span><input type="text" id="pistol" placeholder="DX"></div>
                     <div class="skill-line"><span>Стрельба (винтовки) [A]</span><input type="text" id="rifle" placeholder="DX"></div>
                     <div class="skill-line"><span>Метание (гранаты) [E]</span><input type="text" id="throw" placeholder="DX"></div>
-                    <div class="skill-line"><span>Холодное оружие [A]</span><input type="text" id="melee" placeholder="DX"></div>
+                    <div class="skill-line"><span>Холодное оружие (общее) [A]</span><input type="text" id="melee" placeholder="DX"></div>
+                    <div class="skill-line"><span>Легкое холодное оружие (ножи, кастеты) [E]</span><input type="text" id="light_melee" placeholder="DX"></div>
+                    <div class="skill-line"><span>Тяжелое холодное оружие (лопаты, дубины) [A]</span><input type="text" id="heavy_melee" placeholder="DX"></div>
+                    <div class="skill-line"><span>Рукопашный бой [E]</span><input type="text" id="hand_to_hand" placeholder="DX"></div>
                     <div class="skill-line"><span>Тактика [H]</span><input type="text" id="tactics" placeholder="IQ"></div>
                 </div>
                 
@@ -469,6 +472,7 @@
                     <div class="card-title">⚙️ ТЕХНИКА И МЕДИЦИНА</div>
                     <div class="skill-line"><span>🔌 Электроника (КПК) [A]</span><input type="text" id="electronics" placeholder="IQ"></div>
                     <div class="skill-line"><span>🔧 Механика (оружие) [A]</span><input type="text" id="mechanics" placeholder="IQ"></div>
+                    <div class="skill-line"><span>🚗 Вождение (вездеходы) [A]</span><input type="text" id="driving" placeholder="DX"></div>
                     <div class="skill-line"><span>🩸 Первая помощь [E]</span><input type="text" id="first_aid" placeholder="IQ"></div>
                     <div class="skill-line"><span>💊 Фармакология [H]</span><input type="text" id="pharma" placeholder="IQ"></div>
                 </div>
@@ -478,6 +482,8 @@
                     <div class="skill-line"><span>💰 Торговля / бартер [A]</span><input type="text" id="trade" placeholder="IQ"></div>
                     <div class="skill-line"><span>🗣️ Красноречие [A]</span><input type="text" id="speech" placeholder="IQ"></div>
                     <div class="skill-line"><span>😠 Запугивание [A]</span><input type="text" id="intim" placeholder="Will"></div>
+                    <div class="skill-line"><span>📄 Подделка документов [H]</span><input type="text" id="forgery" placeholder="IQ"></div>
+                    <div class="skill-line"><span>🔓 Взлом / замки [A]</span><input type="text" id="lockpick" placeholder="DX"></div>
                     <div class="skill-line"><span>👥 Уличная осведомлённость [E]</span><input type="text" id="street" placeholder="IQ"></div>
                 </div>
             </div>
@@ -558,7 +564,7 @@
             <tr><td>🏃‍♂️ Ловкость (DX)</td><td>10</td><td>±20 очков</td><td>DX 12 = +40 очков, DX 8 = -40 очков</td></tr>
             <tr><td>🧠 Интеллект (IQ)</td><td>10</td><td>±20 очков</td><td>IQ 13 = +60 очков, IQ 8 = -40 очков</td></tr>
             <tr><td>❤️ Здоровье (HT)</td><td>10</td><td>±10 очков</td><td>HT 11 = +10 очков, HT 9 = -10 очков</td></tr>
-         </table>
+        </table>
         
         <h3>📐 ПРОИЗВОДНЫЕ ХАРАКТЕРИСТИКИ</h3>
         <table class="rules-table">
@@ -571,15 +577,17 @@
             <tr><td>🏃 Базовая Скорость (Move)</td><td>floor(Скорость)</td><td>Скорость передвижения</td></tr>
             <tr><td>🌀 Уклонение (Dodge)</td><td>Скорость + 3</td><td>Защита от атак</td></tr>
             <tr><td>☢️ Сопротивление радиации</td><td>HT/2 + 3</td><td>Бросок против радиации</td></tr>
-         </table>
+        </table>
         
         <h3>🎯 СТОИМОСТЬ НАВЫКОВ</h3>
         <table class="rules-table">
             <tr><th>Сложность</th><th>Стоимость за базовый уровень</th><th>Стоимость +1 уровень</th></tr>
-            <tr><td>Легкий (E)</td><td>1 очко</td><td>+1 очко</td></tr>
+            <tr>
+            
+<td>Легкий (E)</td><td>1 очко</td><td>+1 очко</td></tr>
             <tr><td>Средний (A)</td><td>2 очка</td><td>+2 очка</td></tr>
             <tr><td>Тяжелый (H)</td><td>4 очка</td><td>+4 очка</td></tr>
-         </table>
+        </table>
         <p><strong>Пример:</strong> Выживание (средний) при IQ 12: база 12 стоит 2 очка, повышение до 13 = ещё +2 очка.</p>
         
         <h3>🏅 ПРЕИМУЩЕСТВА И НЕДОСТАТКИ</h3>
@@ -590,7 +598,7 @@
             <tr><td>Быстрая реакция</td><td>15-30</td><td>Враги</td><td>-5 до -20</td></tr>
             <tr><td>Везучий</td><td>15-60</td><td>Любопытство</td><td>-5</td></tr>
             <tr><td>Выносливость</td><td>3/уровень</td><td>Легкая ранимость</td><td>-5 до -15</td></tr>
-         </table>
+        </table>
         
         <h3>🗺️ СПЕЦИАЛЬНЫЕ ПРАВИЛА ЗОНЫ</h3>
         <ul style="margin-left: 20px; font-size: 11px;">
