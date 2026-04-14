@@ -112,6 +112,10 @@
             font-family: monospace;
         }
         
+        .points-cost span {
+            font-size: 12px;
+        }
+        
         .three-col {
             display: flex;
             gap: 20px;
@@ -146,7 +150,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px 0;
+            padding: 6px 0;
             border-bottom: 1px dotted #bb9a6a;
             font-size: 13px;
         }
@@ -181,7 +185,7 @@
         
         .skill-info {
             flex: 2;
-            min-width: 140px;
+            min-width: 150px;
         }
         
         .skill-base {
@@ -235,6 +239,10 @@
         .skill-buttons button:hover {
             background: #5a3e28;
             transform: scale(1.05);
+        }
+        
+        .skill-buttons button:active {
+            transform: scale(0.95);
         }
         
         .derived-grid {
@@ -405,32 +413,36 @@
         
         .inventory-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px 10px;
-            margin-top: 5px;
+            grid-template-columns: 1fr;
+            gap: 4px;
         }
         
         .inventory-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 10px;
-            padding: 3px 0;
-            border-bottom: 1px dotted #bb9a6a;
+            background: #dac299;
+            border-radius: 4px;
+            padding: 6px 8px;
+            margin-bottom: 6px;
         }
         
         .inventory-item input {
-            width: 120px;
+            width: 100%;
             background: #fff2e2;
             border: none;
-            border-bottom: 1px dotted #bb9a6a;
+            border-bottom: 1px solid #7c5d3a;
             font-family: monospace;
-            padding: 2px 5px;
+            padding: 4px;
+            font-size: 10px;
         }
         
-        .inventory-item input.small {
-            width: 50px;
-            text-align: center;
+        .inventory-item textarea {
+            margin-top: 4px;
+            font-size: 9px;
+        }
+        
+        .stat-cost {
+            font-size: 9px;
+            color: #2c5a2c;
+            margin-left: 8px;
         }
     </style>
 </head>
@@ -446,7 +458,7 @@
             <div class="name-field"><input type="text" id="char_name" placeholder="ИМЯ СТАЛКЕРА" size="35"></div>
             <div class="points-cost">
                 <span>⚡ ВСЕГО ОЧКОВ:</span>
-                <input type="number" id="total_points" value="100" step="1" onchange="updateAllSkillsCost()">
+                <input type="number" id="total_points" value="100" step="1" onchange="updateAllCosts()">
                 <span>| ПОТРАЧЕНО:</span>
                 <span id="spent_points">0</span>
                 <span>| ДОСТУПНО:</span>
@@ -455,28 +467,28 @@
         </div>
         
         <div class="three-col">
-            <!-- КОЛОНКА 1: ХАРАКТЕРИСТИКИ + ПРОИЗВОДНЫЕ -->
+            <!-- КОЛОНКА 1: ХАРАКТЕРИСТИКИ + ПРОИЗВОДНЫЕ + СОЦИАЛЬНЫЕ НАВЫКИ -->
             <div class="col">
                 <div class="metal-card">
                     <div class="card-title">💪 ОСНОВНЫЕ ХАРАКТЕРИСТИКИ</div>
                     <div class="stat-row">
                         <span><strong>💪 СИЛА (ST)</strong> <span class="note">[10 очков/уровень]</span></span>
-                        <input type="number" id="st" value="10" step="1" onchange="updateAllDerived(); updateAllSkillsBase(); updateAllSkillsCost();">
+                        <div><input type="number" id="st" value="10" step="1" onchange="onStatChange()"> <span class="stat-cost" id="st_cost">0</span></div>
                     </div>
                     <div class="stat-row">
                         <span><strong>🏃‍♂️ ЛОВКОСТЬ (DX)</strong> <span class="note">[20 очков/уровень]</span></span>
-                        <input type="number" id="dx" value="10" step="1" onchange="updateAllDerived(); updateAllSkillsBase(); updateAllSkillsCost();">
+                        <div><input type="number" id="dx" value="10" step="1" onchange="onStatChange()"> <span class="stat-cost" id="dx_cost">0</span></div>
                     </div>
                     <div class="stat-row">
                         <span><strong>🧠 ИНТЕЛЛЕКТ (IQ)</strong> <span class="note">[20 очков/уровень]</span></span>
-                        <input type="number" id="iq" value="10" step="1" onchange="updateAllDerived(); updateAllSkillsBase(); updateAllSkillsCost();">
+                        <div><input type="number" id="iq" value="10" step="1" onchange="onStatChange()"> <span class="stat-cost" id="iq_cost">0</span></div>
                     </div>
                     <div class="stat-row">
                         <span><strong>❤️ ЗДОРОВЬЕ (HT)</strong> <span class="note">[10 очков/уровень]</span></span>
-                        <input type="number" id="ht" value="10" step="1" onchange="updateAllDerived(); updateAllSkillsBase(); updateAllSkillsCost();">
+                        <div><input type="number" id="ht" value="10" step="1" onchange="onStatChange()"> <span class="stat-cost" id="ht_cost">0</span></div>
                     </div>
-                    <div class="calc-formula">
-                        📊 Стоимость харак-к: (ST-10)×10 + (DX-10)×20 + (IQ-10)×20 + (HT-10)×10 = <span id="stats_cost">0</span> очков
+                    <div class="calc-formula" id="stats_total">
+                        📊 Стоимость характеристик: 0 очков
                     </div>
                 </div>
                 
@@ -487,8 +499,8 @@
                         <div class="derived-item"><span>⚡ ОЧКИ УСТОЙЧИВОСТИ (FP)</span><input type="text" id="fp" readonly placeholder="HT"></div>
                         <div class="derived-item"><span>🧠 СИЛА ВОЛИ (Will)</span><input type="text" id="will" readonly placeholder="IQ"></div>
                         <div class="derived-item"><span>👁️ ВОСПРИЯТИЕ (Per)</span><input type="text" id="per" readonly placeholder="IQ"></div>
-                        <div class="derived-item"><span>⚔️ БАЗОВАЯ СКОРОСТЬ</span><input type="text" id="speed" readonly placeholder="(DX+HT)/4"></div>
-                        <div class="derived-item"><span>🏃 СКОРОСТЬ (Move)</span><input type="text" id="move" readonly placeholder="floor(Speed)"></div>
+                        <div class="derived-item"><span>⚔️ ИНИЦИАТИВА (Basic Speed)</span><input type="text" id="speed" readonly placeholder="(DX+HT)/4"></div>
+                        <div class="derived-item"><span>🏃 БАЗОВАЯ СКОРОСТЬ (Move)</span><input type="text" id="move" readonly placeholder="floor(Speed)"></div>
                         <div class="derived-item"><span>🌀 УКЛОНЕНИЕ (Dodge)</span><input type="text" id="dodge" readonly placeholder="Speed+3"></div>
                         <div class="derived-item"><span>☢️ СОПР. РАДИАЦИИ</span><input type="text" id="rad" readonly placeholder="HT/2+3"></div>
                     </div>
@@ -496,6 +508,11 @@
                         <span>🧬 Уст. к аномалиям: <input type="text" id="anom_resist" readonly placeholder="(Will+HT)/2"></span>
                         <span>🧠 Пси-защита: <input type="text" id="psi_def" readonly placeholder="IQ/2+4"></span>
                     </div>
+                </div>
+                
+                <div class="metal-card">
+                    <div class="card-title">💬 СОЦИАЛЬНЫЕ НАВЫКИ</div>
+                    <div id="social_skills"></div>
                 </div>
                 
                 <div class="metal-card">
@@ -507,11 +524,11 @@
 Недостатки (укажите очки):
 • ...
 • ..."></textarea>
-                    <div class="stat-row"><span>Сумма очков за преимущества/недостатки:</span><input type="text" id="adv_cost" placeholder="0" onchange="updateAllSkillsCost()"></div>
+                    <div class="stat-row"><span>Сумма очков за преимущества/недостатки:</span><input type="text" id="adv_cost" value="0" onchange="updateAllCosts()"></div>
                 </div>
             </div>
             
-            <!-- КОЛОНКА 2: НАВЫКИ -->
+            <!-- КОЛОНКА 2: БОЕВЫЕ НАВЫКИ + ВЫЖИВАНИЕ + ТЕХНИКА -->
             <div class="col">
                 <div class="metal-card">
                     <div class="card-title">🔫 БОЕВЫЕ НАВЫКИ</div>
@@ -529,13 +546,8 @@
                 </div>
             </div>
             
-            <!-- КОЛОНКА 3: СОЦИАЛЬНЫЕ НАВЫКИ + ИНВЕНТАРЬ -->
+            <!-- КОЛОНКА 3: СНАРЯЖЕНИЕ, ИНВЕНТАРЬ, АРТЕФАКТЫ, ФИНАНСЫ, ЗАМЕТКИ -->
             <div class="col">
-                <div class="metal-card">
-                    <div class="card-title">💬 СОЦИАЛЬНЫЕ НАВЫКИ</div>
-                    <div id="social_skills"></div>
-                </div>
-                
                 <div class="metal-card">
                     <div class="card-title">🎒 СНАРЯЖЕНИЕ И БРОНЯ</div>
                     <div class="inv-row"><span>🧥 Костюм / броня:</span><input type="text" id="armor" placeholder="название"></div>
@@ -552,23 +564,36 @@
                 <div class="metal-card">
                     <div class="card-title">🎒 ИНВЕНТАРЬ</div>
                     <div class="inventory-grid">
-                        <div class="inventory-item"><span>💊 Аптечки:</span><input type="text" id="meds" placeholder="0" class="small"></div>
-                        <div class="inventory-item"><span>☢️ Антирад:</span><input type="text" id="antirad" placeholder="0" class="small"></div>
-                        <div class="inventory-item"><span>🍞 Еда:</span><input type="text" id="food" placeholder="0" class="small"></div>
-                        <div class="inventory-item"><span>💧 Вода:</span><input type="text" id="water" placeholder="0" class="small"></div>
-                        <div class="inventory-item"><span>🔋 Батареи:</span><input type="text" id="batteries" placeholder="0" class="small"></div>
-                        <div class="inventory-item"><span>📡 КПК:</span><input type="text" id="pda" placeholder="есть/нет" class="small"></div>
-                        <div class="inventory-item"><span>🌀 Детектор:</span><input type="text" id="detector" placeholder="есть/нет" class="small"></div>
-                        <div class="inventory-item"><span>⚙️ Контейнеры:</span><input type="text" id="containers" placeholder="0" class="small"></div>
+                        <div class="inventory-item">
+                            <input type="text" id="inv_item1" placeholder="Предмет 1">
+                        </div>
+                        <div class="inventory-item">
+                            <input type="text" id="inv_item2" placeholder="Предмет 2">
+                        </div>
+                        <div class="inventory-item">
+                            <input type="text" id="inv_item3" placeholder="Предмет 3">
+                        </div>
+                        <div class="inventory-item">
+                            <input type="text" id="inv_item4" placeholder="Предмет 4">
+                        </div>
+                        <div class="inventory-item">
+                            <input type="text" id="inv_item5" placeholder="Предмет 5">
+                        </div>
+                        <div class="inventory-item">
+                            <input type="text" id="inv_item6" placeholder="Предмет 6">
+                        </div>
+                        <div class="inventory-item">
+                            <textarea id="inv_notes" rows="2" placeholder="Дополнительные заметки по инвентарю..."></textarea>
+                        </div>
                     </div>
-                    <div class="inv-row" style="margin-top: 8px;"><span>📦 Прочее снаряжение:</span><input type="text" id="other_gear" placeholder=""></div>
                 </div>
                 
                 <div class="metal-card">
                     <div class="card-title">🌀 АРТЕФАКТЫ</div>
                     <textarea rows="3" id="artifacts" placeholder="1. Название ☢️ эффект, фон __ р/ч&#10;2. ...&#10;3. ..."></textarea>
-                    <div class="armor-stats" style="margin-top: 5px;">
-                        <span>Суммарный фон: <input type="text" id="rad_bg" placeholder="0" class="small"></span>
+                    <div class="armor-stats">
+                        <span>⚙️ контейнеры: <input type="text" id="containers" placeholder="0"></span>
+                        <span>суммарный фон: <input type="text" id="rad_bg" placeholder="0"></span>
                     </div>
                 </div>
                 
@@ -606,118 +631,120 @@
         
         <h3>🎲 ОСНОВНОЕ ПРАВИЛО</h3>
         <p>Все проверки выполняются броском <strong>3d6</strong>. Результат должен быть <strong>МЕНЬШЕ или РАВЕН</strong> значению навыка или характеристики.</p>
+        <h3>🎲 КРИТИЧЕСКИЕ БРОСКИ</h3>
+        <p>При броске 3d6: <strong>3-5</strong> — критический успех (особо хороший результат). <strong>16-18</strong> — критическая неудача (что-то идёт не так).</p>
+        <h3>🗺️ СПЕЦИАЛЬНЫЕ ПРАВИЛА ЗОНЫ</h3>
+        <ul style="margin-left: 20px; font-size: 11px;">
+            <li><strong>Радиация:</strong> каждый час в заражённой зоне — бросок HT против радиации. Фон >10 р/ч — каждые 10 минут.</li>
+            <li><strong>Аномалии:</strong> Восприятие (Per) для обнаружения, Понимание аномалий для идентификации, Уклонение для прохода.</li>
+            <li><strong>Мутанты:</strong> при встрече с мутантами — проверка Силы Воли (Will) для паники.</li>
+            <li><strong>Артефакты:</strong> идентификация требует IQ/Понимание аномалий. Ношение без контейнера даёт радиационный фон.</li>
+            <li><strong>Сон и отдых:</strong> за каждые 8 часов без сна — потеря 1 FP. Восстановление: 1 FP за 10 минут отдыха.</li>
+            <li><strong>Лечение:</strong> Первая помощь восстанавливает 1d3 HP. Медикаменты могут дать бонусы.</li>
+        </ul>
+
         
-        <h3>📊 СТОИМОСТЬ НАВЫКОВ</h3>
+        <h3>📊 СТОИМОСТЬ ХАРАКТЕРИСТИК</h3>
+        <table class="rules-table">
+            <tr><th>Характеристика</th><th>Стоимость за уровень</th><th>Пример</th></tr>
+            <tr>
+        
+<td>Сила (ST), Здоровье (HT)</td><td>±10 очков</td><td>ST 12 = +20, ST 8 = -20</td></tr>
+            <tr><td>Ловкость (DX), Интеллект (IQ)</td><td>±20 очков</td><td>DX 12 = +40, DX 8 = -40</td></tr>
+        </table>
+        
+        <h3>🎯 СТОИМОСТЬ НАВЫКОВ</h3>
         <table class="rules-table">
             <tr><th>Сложность</th><th>Базовый уровень</th><th>+1 уровень</th><th>-1 уровень</th></tr>
-            <tr>
-        
-            <td>Легкий (E)</td><td>1 очко</td><td>+1 очко</td><td>-1 очко</td>
-            <tr>
-            <tr>
-            
-            <td>Средний (A)</td><td>2 очка</td><td>+2 очка</td><td>-2 очка</td>
-            <tr>
-            <tr>
-            
-            <td>Тяжелый (H)</td><td>4 очка</td><td>+4 очка</td><td>-4 очка</td>
-            </tr>
+            <tr><td>Легкий (E)</td><td>1 очко</td><td>+1 очко</td><td>-1 очко</td></tr>
+            <tr><td>Средний (A)</td><td>2 очка</td><td>+2 очка</td><td>-2 очка</td></tr>
+            <tr><td>Тяжелый (H)</td><td>4 очка</td><td>+4 очка</td><td>-4 очка</td></tr>
         </table>
         
         <h3>📐 ФОРМУЛЫ БАЗОВЫХ УРОВНЕЙ НАВЫКОВ</h3>
         <table class="rules-table">
             <tr><th>Навык</th><th>Сложность</th><th>Базовая формула</th></tr>
-            <tr>
-            
-            <td>Понимание аномалий</td><td>H</td><td>IQ-6</td>
-            </tr>
-            <tr>
-            
-            <td>Выживание, Электроника, Механика, Торговля, Красноречие, Взлом, Запугивание, Стрельба (винтовки/автоматы), Метание, Тяжелое холодное оружие</td><td>A</td><td>Характеристика-5</td>
-            </tr>
-            <tr>
-            
-            <td>Первая помощь, Вождение, Стрельба (пистолеты), Легкое холодное оружие</td><td>E</td><td>Характеристика-4</td>
-            </tr>
-            <tr>
-            
-            <td>Подделка документов</td><td>H</td><td>IQ-6</td>
-            </tr>
+            <tr><td>Понимание аномалий, Подделка документов</td><td>H</td><td>IQ-6</td></tr>
+            <tr><td>Выживание, Электроника, Механика, Торговля, Красноречие, Взлом, Запугивание, Стрельба (винтовки/автоматы), Метание, Тяжелое холодное оружие</td><td>A</td><td>Характеристика-5</td></tr>
+            <tr><td>Первая помощь, Вождение, Стрельба (пистолеты), Легкое холодное оружие, Рукопашный бой</td><td>E</td><td>Характеристика-4</td></tr>
         </table>
         
-        <h3>🎯 КАК ЭТО РАБОТАЕТ</h3>
-        <p>1. Базовый уровень навыка рассчитывается автоматически из характеристик<br>
-        2. Кнопками <strong>+ / -</strong> вы повышаете или понижаете уровень навыка<br>
-        3. Стоимость зависит от сложности навыка (E/A/H)<br>
-        4. Потраченные очки автоматически вычитаются из доступного бюджета<br>
-        5. Мастер может изменить "ВСЕГО ОЧКОВ" вручную, чтобы выдать опыт</p>
-        
-        <footer>GURPS 4e для Зоны Отчуждения | v3.0 с системой очков навыков</footer>
+        <footer>GURPS 4e для Зоны Отчуждения | v5.0 | Создай своего сталкера и выживи в Зоне!</footer>
     </div>
 </div>
 
 <script>
-    // Структура навыков - базовые значения на уровне характеристик
+    // Хранилище "вложенных очков" для каждого навыка (отдельно от базового уровня)
+    let investedPoints = {};
+    
+    // Структура навыков
     const skillsData = {
         combat: [
-            { id: "auto", name: "Стрельба (автоматы)", diff: "A", baseStat: "dx", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "pistol", name: "Стрельба (пистолеты)", diff: "E", baseStat: "dx", baseMod: -4, value: null, defaultCost: 0 },
-            { id: "rifle", name: "Стрельба (винтовки)", diff: "A", baseStat: "dx", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "throw", name: "Метание (гранаты)", diff: "A", baseStat: "dx", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "light_melee", name: "Легкое холодное оружие", diff: "E", baseStat: "dx", baseMod: -4, value: null, defaultCost: 0 },
-            { id: "heavy_melee", name: "Тяжелое холодное оружие", diff: "A", baseStat: "st", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "hand_to_hand", name: "Рукопашный бой", diff: "E", baseStat: "dx", baseMod: -4, value: null, defaultCost: 0 },
-            { id: "tactics", name: "Тактика", diff: "H", baseStat: "iq", baseMod: -6, value: null, defaultCost: 0 }
+            { id: "auto", name: "Стрельба (автоматы)", diff: "A", baseStat: "dx", baseMod: -5 },
+            { id: "pistol", name: "Стрельба (пистолеты)", diff: "E", baseStat: "dx", baseMod: -4 },
+            { id: "rifle", name: "Стрельба (винтовки)", diff: "A", baseStat: "dx", baseMod: -5 },
+            { id: "throw", name: "Метание (гранаты)", diff: "A", baseStat: "dx", baseMod: -5 },
+            { id: "light_melee", name: "Легкое холодное оружие", diff: "E", baseStat: "dx", baseMod: -4 },
+            { id: "heavy_melee", name: "Тяжелое холодное оружие", diff: "A", baseStat: "st", baseMod: -5 },
+            { id: "hand_to_hand", name: "Рукопашный бой", diff: "E", baseStat: "dx", baseMod: -4 },
+            { id: "tactics", name: "Тактика", diff: "H", baseStat: "iq", baseMod: -6 }
         ],
         survival: [
-            { id: "anom", name: "Понимание аномалий", diff: "H", baseStat: "iq", baseMod: -6, value: null, defaultCost: 0 },
-            { id: "survival", name: "Выживание (Зона)", diff: "A", baseStat: "per", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "stealth", name: "Скрытность", diff: "A", baseStat: "dx", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "artifact_id", name: "Идентификация артефактов", diff: "H", baseStat: "iq", baseMod: -6, value: null, defaultCost: 0 },
-            { id: "rad_safe", name: "Радиационная безопасность", diff: "A", baseStat: "iq", baseMod: -5, value: null, defaultCost: 0 }
+            { id: "anom", name: "Понимание аномалий", diff: "H", baseStat: "iq", baseMod: -6 },
+            { id: "survival", name: "Выживание (Зона)", diff: "A", baseStat: "per", baseMod: -5 },
+            { id: "stealth", name: "Скрытность", diff: "A", baseStat: "dx", baseMod: -5 },
+            { id: "artifact_id", name: "Идентификация артефактов", diff: "H", baseStat: "iq", baseMod: -6 },
+            { id: "rad_safe", name: "Радиационная безопасность", diff: "A", baseStat: "iq", baseMod: -5 }
         ],
         tech: [
-            { id: "electronics", name: "Электроника (КПК)", diff: "A", baseStat: "iq", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "mechanics", name: "Механика (оружие)", diff: "A", baseStat: "iq", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "driving", name: "Вождение (вездеходы)", diff: "E", baseStat: "dx", baseMod: -4, value: null, defaultCost: 0 },
-            { id: "first_aid", name: "Первая помощь", diff: "E", baseStat: "iq", baseMod: -4, value: null, defaultCost: 0 },
-            { id: "pharma", name: "Фармакология", diff: "H", baseStat: "iq", baseMod: -6, value: null, defaultCost: 0 }
+            { id: "electronics", name: "Электроника (КПК)", diff: "A", baseStat: "iq", baseMod: -5 },
+            { id: "mechanics", name: "Механика (оружие)", diff: "A", baseStat: "iq", baseMod: -5 },
+            { id: "driving", name: "Вождение (вездеходы)", diff: "E", baseStat: "dx", baseMod: -4 },
+            { id: "first_aid", name: "Первая помощь", diff: "E", baseStat: "iq", baseMod: -4 },
+            { id: "pharma", name: "Фармакология", diff: "H", baseStat: "iq", baseMod: -6 }
         ],
         social: [
-            { id: "trade", name: "Торговля / бартер", diff: "A", baseStat: "iq", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "speech", name: "Красноречие", diff: "A", baseStat: "iq", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "intim", name: "Запугивание", diff: "A", baseStat: "will", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "forgery", name: "Подделка документов", diff: "H", baseStat: "iq", baseMod: -6, value: null, defaultCost: 0 },
-            { id: "lockpick", name: "Взлом / замки", diff: "A", baseStat: "iq", baseMod: -5, value: null, defaultCost: 0 },
-            { id: "street", name: "Уличная осведомлённость", diff: "E", baseStat: "iq", baseMod: -4, value: null, defaultCost: 0 }
+            { id: "trade", name: "Торговля / бартер", diff: "A", baseStat: "iq", baseMod: -5 },
+            { id: "speech", name: "Красноречие", diff: "A", baseStat: "iq", baseMod: -5 },
+            { id: "intim", name: "Запугивание", diff: "A", baseStat: "will", baseMod: -5 },
+            { id: "forgery", name: "Подделка документов", diff: "H", baseStat: "iq", baseMod: -6 },
+            { id: "lockpick", name: "Взлом / замки", diff: "A", baseStat: "iq", baseMod: -5 },
+            { id: "street", name: "Уличная осведомлённость", diff: "E", baseStat: "iq", baseMod: -4 }
         ]
     };
     
     function getStatValue(stat) {
-        if (stat === "per") return parseFloat(document.getElementById("per").value) || 10;
-        if (stat === "will") return parseFloat(document.getElementById("will").value) || 10;
-        return parseFloat(document.getElementById(stat).value) || 10;
+        if (stat === "per") return parseFloat(document.getElementById("per")?.value) || 10;
+        if (stat === "will") return parseFloat(document.getElementById("will")?.value) || 10;
+        return parseFloat(document.getElementById(stat)?.value) || 10;
     }
     
     function getBaseLevel(skill) {
-        let statValue = getStatValue(skill.baseStat);
+        const statValue = getStatValue(skill.baseStat);
         return Math.max(3, statValue + skill.baseMod);
     }
     
-    function getSkillCost(skill) {
-        if (skill.value === null) return 0;
-        const base = getBaseLevel(skill);
-        const current = skill.value;
-        const diffCost = skill.diff === "E" ? 1 : (skill.diff === "A" ? 2 : 4);
-        return (current - base) * diffCost;
+    function getDiffCost(diff) {
+        return diff === "E" ? 1 : (diff === "A" ? 2 : 4);
+    }
+    
+    function getCurrentSkillLevel(skillId) {
+        for (let cat in skillsData) {
+            const skill = skillsData[cat].find(s => s.id === skillId);
+            if (skill) {
+                const base = getBaseLevel(skill);
+                const invested = investedPoints[skillId] || 0;
+                return base + invested;
+            }
+        }
+        return 10;
     }
     
     function updateSkillUI(skill, container) {
-        if (skill.value === null) {
-            skill.value = getBaseLevel(skill);
-        }
         const base = getBaseLevel(skill);
-        const cost = getSkillCost(skill);
+        const invested = investedPoints[skill.id] || 0;
+        const currentLevel = base + invested;
+        const cost = invested * getDiffCost(skill.diff);
         
         const div = document.createElement("div");
         div.className = "skill-item";
@@ -731,7 +758,7 @@
                     <button onclick="changeSkillLevel('${skill.id}', -1)">-</button>
                     <button onclick="changeSkillLevel('${skill.id}', 1)">+</button>
                 </div>
-                <input type="text" id="skill_${skill.id}" value="${skill.value}" readonly style="width:40px">
+                <input type="text" id="skill_${skill.id}" value="${currentLevel}" readonly style="width:40px">
                 <div class="skill-cost">${cost >= 0 ? '+' : ''}${cost} оч.</div>
             </div>
         `;
@@ -742,12 +769,16 @@
         for (let cat in skillsData) {
             const skill = skillsData[cat].find(s => s.id === skillId);
             if (skill) {
-                const newValue = skill.value + delta;
-                if (newValue >= 3 && newValue <= 25) {
-                    skill.value = newValue;
-                    document.getElementById(`skill_${skill.id}`).value = newValue;
+                const base = getBaseLevel(skill);
+                const currentInvested = investedPoints[skillId] || 0;
+                const newInvested = currentInvested + delta;
+                const newLevel = base + newInvested;
+                
+                if (newLevel >= 3 && newLevel <= 25) {
+                    investedPoints[skillId] = newInvested;
+                    document.getElementById(`skill_${skill.id}`).value = newLevel;
                     renderAllSkills();
-                    updateAllSkillsCost();
+                    updateAllCosts();
                 }
                 break;
             }
@@ -765,41 +796,67 @@
         const container = document.getElementById(containerId);
         if (!container) return;
         container.innerHTML = "";
-        skills.forEach(skill => {
-            if (skill.value === null) {
-                skill.value = getBaseLevel(skill);
-            }
-            updateSkillUI(skill, container);
-        });
+        skills.forEach(skill => updateSkillUI(skill, container));
     }
     
-    function updateAllSkillsCost() {
+    function updateStatsCost() {
+        const st = parseFloat(document.getElementById("st").value) || 10;
+        const dx = parseFloat(document.getElementById("dx").value) || 10;
+        const iq = parseFloat(document.getElementById("iq").value) || 10;
+        const ht = parseFloat(document.getElementById("ht").value) || 10;
+        
+        const stCost = (st - 10) * 10;
+        const dxCost = (dx - 10) * 20;
+        const iqCost = (iq - 10) * 20;
+        const htCost = (ht - 10) * 10;
+        
+        document.getElementById("st_cost").innerHTML = stCost >= 0 ? `+${stCost}` : `${stCost}`;
+        document.getElementById("dx_cost").innerHTML = dxCost >= 0 ? `+${dxCost}` : `${dxCost}`;
+        document.getElementById("iq_cost").innerHTML = iqCost >= 0 ? `+${iqCost}` : `${iqCost}`;
+        document.getElementById("ht_cost").innerHTML = htCost >= 0 ? `+${htCost}` : `${htCost}`;
+        
+        const totalStatsCost = stCost + dxCost + iqCost + htCost;
+        document.getElementById("stats_total").innerHTML = `📊 Стоимость характеристик: ${totalStatsCost >= 0 ? '+' : ''}${totalStatsCost} очков`;
+        
+        return totalStatsCost;
+    }
+    
+    function updateAllSkillsTotal() {
         let total = 0;
         for (let cat in skillsData) {
             skillsData[cat].forEach(skill => {
-                total += getSkillCost(skill);
+                const invested = investedPoints[skill.id] || 0;
+                total += invested * getDiffCost(skill.diff);
             });
         }
         document.getElementById("total_skills_cost").innerText = total;
-        
+        return total;
+    }
+    
+    function updateAllCosts() {
+        const statsCost = updateStatsCost();
+        const skillsCost = updateAllSkillsTotal();
         const advCost = parseInt(document.getElementById("adv_cost").value) || 0;
-        const totalPoints = parseInt(document.getElementById("total_points").value) || 0;
-        const spent = total + advCost;
-        document.getElementById("spent_points").innerText = spent;
-        document.getElementById("available_points").innerText = totalPoints - spent;
+        const totalPoints = parseInt(document.getElementById("total_points").value) || 100;
         
-        const stCost = (getStatValue("st") - 10) * 10;
-        const dxCost = (getStatValue("dx") - 10) * 20;
-        const iqCost = (getStatValue("iq") - 10) * 20;
-        const htCost = (getStatValue("ht") - 10) * 10;
-        document.getElementById("stats_cost").innerText = stCost + dxCost + iqCost + htCost;
+        const spent = statsCost + skillsCost + advCost;
+        document.getElementById("spent_points").innerText = spent;
+        const available = totalPoints - spent;
+        document.getElementById("available_points").innerText = available;
+        
+        if (available < 0) {
+            document.getElementById("available_points").style.color = "#8b3a2a";
+            document.getElementById("available_points").style.fontWeight = "bold";
+        } else {
+            document.getElementById("available_points").style.color = "";
+        }
     }
     
     function updateAllDerived() {
-        const st = getStatValue("st");
-        const dx = getStatValue("dx");
-        const iq = getStatValue("iq");
-        const ht = getStatValue("ht");
+        const st = parseFloat(document.getElementById("st").value) || 10;
+        const dx = parseFloat(document.getElementById("dx").value) || 10;
+        const iq = parseFloat(document.getElementById("iq").value) || 10;
+        const ht = parseFloat(document.getElementById("ht").value) || 10;
         
         document.getElementById("hp").value = st;
         document.getElementById("fp").value = ht;
@@ -816,17 +873,37 @@
         document.getElementById("psi_def").value = Math.floor(iq / 2) + 4;
     }
     
-    function updateAllSkillsBase() {
+    // КЛЮЧЕВОЕ: обработка изменения характеристик с корректным пересчётом навыков
+    function onStatChange() {
+        // Сохраняем старые значения investedPoints (они уже есть)
+        // Обновляем производные
+        updateAllDerived();
+        
+        // Пересчитываем базовые уровни всех навыков
         for (let cat in skillsData) {
             skillsData[cat].forEach(skill => {
                 const base = getBaseLevel(skill);
-                if (skill.value < base) {
-                    skill.value = base;
+                const currentInvested = investedPoints[skill.id] || 0;
+                const currentLevel = base + currentInvested;
+                
+                // Если после изменения базы текущий уровень оказался ниже новой базы,
+                // то поднимаем навык до новой базы (бесплатно, уменьшаем вложенные очки)
+                if (currentLevel < base) {
+                    const newInvested = 0;
+                    investedPoints[skill.id] = newInvested;
                 }
+                // Если текущий уровень выше базы - оставляем как есть (вложенные очки сохраняются)
+                // Если текущий уровень равен базе - investedPoints = 0
+                else if (currentLevel === base) {
+                    investedPoints[skill.id] = 0;
+                }
+                // Иначе investedPoints остаются те же
             });
         }
+        
+        // Перерисовываем все навыки и обновляем очки
         renderAllSkills();
-        updateAllSkillsCost();
+        updateAllCosts();
     }
     
     function saveCharacter() {
@@ -847,37 +924,30 @@
             anom_protect: document.getElementById("anom_protect").value,
             weapon1: document.getElementById("weapon1").value,
             weapon2: document.getElementById("weapon2").value,
-            meds: document.getElementById("meds").value,
-            antirad: document.getElementById("antirad").value,
-            food: document.getElementById("food").value,
-            water: document.getElementById("water").value,
-            batteries: document.getElementById("batteries").value,
-            pda: document.getElementById("pda").value,
-            detector: document.getElementById("detector").value,
-            containers: document.getElementById("containers").value,
-            other_gear: document.getElementById("other_gear").value,
+            inv_item1: document.getElementById("inv_item1").value,
+            inv_item2: document.getElementById("inv_item2").value,
+            inv_item3: document.getElementById("inv_item3").value,
+            inv_item4: document.getElementById("inv_item4").value,
+            inv_item5: document.getElementById("inv_item5").value,
+            inv_item6: document.getElementById("inv_item6").value,
+            inv_notes: document.getElementById("inv_notes").value,
             artifacts: document.getElementById("artifacts").value,
+            containers: document.getElementById("containers").value,
             rad_bg: document.getElementById("rad_bg").value,
             money: document.getElementById("money").value,
             reputation: document.getElementById("reputation").value,
             faction: document.getElementById("faction").value,
             notes: document.getElementById("notes").value,
-            skills: {}
+            investedPoints: JSON.parse(JSON.stringify(investedPoints))
         };
         
-        for (let cat in skillsData) {
-            skillsData[cat].forEach(skill => {
-                saveData.skills[skill.id] = skill.value;
-            });
-        }
-        
-        localStorage.setItem("stalker_character_v4", JSON.stringify(saveData));
+        localStorage.setItem("stalker_character_v5", JSON.stringify(saveData));
         document.getElementById("saveStatus").innerHTML = "✅ Персонаж сохранён! " + new Date().toLocaleTimeString();
         setTimeout(() => document.getElementById("saveStatus").innerHTML = "", 3000);
     }
     
     function loadCharacter() {
-        const saved = localStorage.getItem("stalker_character_v4");
+        const saved = localStorage.getItem("stalker_character_v5");
         if (saved) {
             const data = JSON.parse(saved);
             document.getElementById("char_name").value = data.char_name || "";
@@ -896,43 +966,30 @@
             document.getElementById("anom_protect").value = data.anom_protect || "";
             document.getElementById("weapon1").value = data.weapon1 || "";
             document.getElementById("weapon2").value = data.weapon2 || "";
-            document.getElementById("meds").value = data.meds || "";
-            document.getElementById("antirad").value = data.antirad || "";
-            document.getElementById("food").value = data.food || "";
-            document.getElementById("water").value = data.water || "";
-            document.getElementById("batteries").value = data.batteries || "";
-            document.getElementById("pda").value = data.pda || "";
-            document.getElementById("detector").value = data.detector || "";
-            document.getElementById("containers").value = data.containers || "";
-            document.getElementById("other_gear").value = data.other_gear || "";
+            document.getElementById("inv_item1").value = data.inv_item1 || "";
+            document.getElementById("inv_item2").value = data.inv_item2 || "";
+            document.getElementById("inv_item3").value = data.inv_item3 || "";
+            document.getElementById("inv_item4").value = data.inv_item4 || "";
+            document.getElementById("inv_item5").value = data.inv_item5 || "";
+            document.getElementById("inv_item6").value = data.inv_item6 || "";
+            document.getElementById("inv_notes").value = data.inv_notes || "";
             document.getElementById("artifacts").value = data.artifacts || "";
+            document.getElementById("containers").value = data.containers || "";
             document.getElementById("rad_bg").value = data.rad_bg || "";
             document.getElementById("money").value = data.money || "";
             document.getElementById("reputation").value = data.reputation || "";
             document.getElementById("faction").value = data.faction || "";
             document.getElementById("notes").value = data.notes || "";
             
-            if (data.skills) {
-                for (let cat in skillsData) {
-                    skillsData[cat].forEach(skill => {
-                        if (data.skills[skill.id] !== undefined) {
-                            skill.value = data.skills[skill.id];
-                        } else {
-                            skill.value = getBaseLevel(skill);
-                        }
-                    });
-                }
+            if (data.investedPoints) {
+                investedPoints = data.investedPoints;
             } else {
-                for (let cat in skillsData) {
-                    skillsData[cat].forEach(skill => {
-                        skill.value = getBaseLevel(skill);
-                    });
-                }
+                investedPoints = {};
             }
             
             updateAllDerived();
             renderAllSkills();
-            updateAllSkillsCost();
+            updateAllCosts();
             
             document.getElementById("saveStatus").innerHTML = "✅ Персонаж загружен!";
             setTimeout(() => document.getElementById("saveStatus").innerHTML = "", 2000);
@@ -959,31 +1016,26 @@
         document.getElementById("anom_protect").value = "";
         document.getElementById("weapon1").value = "";
         document.getElementById("weapon2").value = "";
-        document.getElementById("meds").value = "";
-        document.getElementById("antirad").value = "";
-        document.getElementById("food").value = "";
-        document.getElementById("water").value = "";
-        document.getElementById("batteries").value = "";
-        document.getElementById("pda").value = "";
-        document.getElementById("detector").value = "";
-        document.getElementById("containers").value = "";
-        document.getElementById("other_gear").value = "";
+        document.getElementById("inv_item1").value = "";
+        document.getElementById("inv_item2").value = "";
+        document.getElementById("inv_item3").value = "";
+        document.getElementById("inv_item4").value = "";
+        document.getElementById("inv_item5").value = "";
+        document.getElementById("inv_item6").value = "";
+        document.getElementById("inv_notes").value = "";
         document.getElementById("artifacts").value = "";
+        document.getElementById("containers").value = "";
         document.getElementById("rad_bg").value = "";
         document.getElementById("money").value = "";
         document.getElementById("reputation").value = "";
         document.getElementById("faction").value = "";
         document.getElementById("notes").value = "";
         
-        for (let cat in skillsData) {
-            skillsData[cat].forEach(skill => {
-                skill.value = getBaseLevel(skill);
-            });
-        }
+        investedPoints = {};
         
         updateAllDerived();
         renderAllSkills();
-        updateAllSkillsCost();
+        updateAllCosts();
         
         document.getElementById("saveStatus").innerHTML = "🗑️ Все поля очищены!";
         setTimeout(() => document.getElementById("saveStatus").innerHTML = "", 2000);
@@ -991,14 +1043,10 @@
     
     // Инициализация
     function init() {
-        for (let cat in skillsData) {
-            skillsData[cat].forEach(skill => {
-                skill.value = getBaseLevel(skill);
-            });
-        }
+        investedPoints = {};
         updateAllDerived();
         renderAllSkills();
-        updateAllSkillsCost();
+        updateAllCosts();
     }
     
     init();
